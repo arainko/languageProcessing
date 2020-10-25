@@ -7,8 +7,20 @@ from tabulate import tabulate
 def lexical_diversity(text):
     return len(text) / len(set(text))
 
-def zad1():
-    pass
+
+def flatten(_list):
+    flattened = []
+    for nestedList in _list:
+        flattened.extend(nestedList)
+    return flattened
+
+
+def vocab_size(text):
+    return len(set(text))
+
+
+def max_length_word(text):
+    return max(len(word) for word in set(text))
 
 
 if __name__ == '__main__':
@@ -41,6 +53,28 @@ if __name__ == '__main__':
     print(tabulate(table))
     # zadanie 3
     fours = [word for word in text1 if len(word) == 4]
-    print("4 literowe slowa:" + str(len(fours)))
+    print("4 literowe slowa: " + str(len(fours)))
     # zadanie 4
     moreThanSeventeen = [word for word in text1 if len(word) > 17]
+    # zadanie 5
+    texts = [sent1, sent2, sent3, sent4, sent5, sent6, sent7, sent8, sent9]
+    dictForEach = [sorted(set(text)) for text in texts]
+    uniqueDict = set(flatten(dictForEach))
+    print(uniqueDict)
+    # zadanie 6
+    vocabSizeForEach = map(
+        lambda text: vocab_size(text),
+        [text1, text2, text3, text4, text5, text6, text7, text8, text9]
+    )
+    print(list(vocabSizeForEach))
+    # zadanie 7
+    print(FreqDist(text1).most_common(10))
+    # zadanie 8
+    # tu nie jestem pewien czy chciała pani wszystkie najdłuższe słowa czy tylko po jednym z każdego z tekstów
+    # wystarczy, tutaj wersja dla jednego z każdego.
+    textsToCheck = [text1, text2, text3, text4, text5, text6]
+    wordSets = map(lambda text: set(text), textsToCheck)
+    wordsWithLengths = map(lambda text: map(lambda word: (word, len(word)), text), wordSets)
+    wordsWithLengthsDict = map(lambda text: dict(text), wordsWithLengths)
+    maxLenWords = map(lambda voc: max(voc, key=lambda key: voc[key]), wordsWithLengthsDict)
+    print(list(maxLenWords))
